@@ -1,0 +1,14 @@
+[versions]
+kotlin = "1.9.24"
+avro-idl = "1.12.0"
+plugin-publish = "1.2.2"
+
+[libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+avro-idl = { module = "org.apache.avro:avro-idl", version.ref = "avro-idl" }
+
+[bundles]
+core-deps = ["kotlin-stdlib", "avro-idl"]
+
+[plugins]
+plugin-publish = { id = "com.gradle.plugin-publish", version.ref = "plugin-publish" }
