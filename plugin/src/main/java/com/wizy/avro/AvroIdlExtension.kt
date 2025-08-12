@@ -2,29 +2,34 @@ package com.wizy.avro
 
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import java.io.File
 import javax.inject.Inject
 
 /**
- * Пользовательская конфигурация плагина (куда складывать .avdl, куда генерировать .avsc).
- *  */
-abstract class AvroIdlExtension @Inject constructor(
+ * Пользовательская конфигурация плагина:
+ *  - sourceDirs: откуда брать .avdl
+ *  - outputBaseDir: куда генерить .avsc/.pr
+ *  - writeProtocolJson: генерировать ли .pr (protocol JSON)
+ */
+open class AvroIdlExtension @Inject constructor(
+    objects: ObjectFactory,
     layout: ProjectLayout
 )
 {
 
-    abstract val sourceDirs: ListProperty<File>
+    /** Список директорий с .avdl */
+    val sourceDirs: ListProperty<File> =
+        objects.listProperty(File::class.java).convention(emptyList())
 
-    abstract val outputBaseDir: DirectoryProperty
+    /** Базовая директория генерации .avsc/.pr */
+    val outputBaseDir: DirectoryProperty =
+        objects.directoryProperty()
+            .convention(layout.buildDirectory.dir("generated/avro"))
 
-    abstract val writeProtocolJson: Property<Boolean>
-
-    init
-    {
-        sourceDirs.convention(emptyList())
-        outputBaseDir.convention(layout.buildDirectory.dir("generated/avro"))
-        writeProtocolJson.convention(true)
-    }
+    /** Генерировать protocol JSON (.pr) */
+    val writeProtocolJson: Property<Boolean> =
+        objects.property(Boolean::class.java).convention(true)
 }
