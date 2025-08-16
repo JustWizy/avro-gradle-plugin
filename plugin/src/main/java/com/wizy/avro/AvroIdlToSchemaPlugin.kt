@@ -17,12 +17,7 @@ class AvroIdlToSchemaPlugin : Plugin<Project>
 
     override fun apply(project: Project)
     {
-        val ext = project.extensions.create(
-            "avroIdl",
-            AvroIdlExtension::class.java,
-            project.objects,
-            project.layout
-        )
+        val ext = project.extensions.create("avroIdl", AvroIdlExtension::class.java)
 
         project.plugins.withId("java") { configureForJava(project, ext) }
         project.plugins.withId("java-library") { configureForJava(project, ext) }
@@ -58,7 +53,7 @@ class AvroIdlToSchemaPlugin : Plugin<Project>
 
             resources.srcDir(baseForSet)
 
-
+            
             project.tasks.named<Copy>(processResourcesTaskName).configure {
                 dependsOn(genTask)
             }
