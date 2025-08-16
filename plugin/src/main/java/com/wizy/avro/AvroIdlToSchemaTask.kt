@@ -28,11 +28,11 @@ abstract class AvroIdlToSchemaTask : DefaultTask()
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val idlFiles: ConfigurableFileCollection
 
-    @get:OutputDirectory
-    abstract val outputDir: DirectoryProperty
-
     @get:Input
     abstract val writeProtocolJson: Property<Boolean>
+    
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
 
     init
     {

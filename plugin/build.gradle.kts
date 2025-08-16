@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
+    `maven-publish`
     alias(libs.plugins.plugin.publish)
 }
 
@@ -36,6 +37,15 @@ gradlePlugin {
         }
     }
 }
+
+publishing {
+    publications {
+        withType<MavenPublication>().matching { it.name == "pluginMaven" }.configureEach {
+            artifactId = "avro-gradle-plugin"
+        }
+    }
+}
+
 
 java {
     toolchain {
